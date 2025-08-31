@@ -1,0 +1,235 @@
+===================================
+TUTORIAL DE CONFIGURAÇÃO DO EMACS COMO IDE
+===================================
+
+# 1. Instalar o Emacs
+No Linux (Debian/Ubuntu):
+    sudo apt update
+    sudo apt install emacs git curl build-essential cmake clangd python3-pip nodejs npm cargo
+
+No Arch Linux:
+    sudo pacman -S emacs git base-devel cmake clang python-pip nodejs npm rustup
+
+No Fedora:
+    sudo dnf install emacs git gcc gcc-c++ make cmake clang-tools-extra python3-pip nodejs npm rust cargo
+
+No macOS:
+    brew install emacs
+
+No Windows:
+    - Baixar do site oficial: https://ftp.gnu.org/gnu/emacs/windows/
+    - OU usar WSL2 com instalação Linux.
+
+-----------------------------------
+# 2. Estrutura de configuração
+O Emacs usa:
+    ~/.emacs.d/init.el   -> configuração principal
+    ~/.emacs.d/elpa/     -> pacotes baixados
+
+Crie a pasta:
+    mkdir -p ~/.emacs.d
+
+-----------------------------------
+# 3. Configuração estilo VSCode IDE
+Edite o arquivo:
+    nano ~/.emacs.d/init.el
+
+Cole o seguinte:
+
+-----------------------------------
+;; Desabilitar tela inicial
+(setq inhibit-startup-message t)
+
+;; Interface mais limpa
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+;; Mostrar números e colunas
+(global-display-line-numbers-mode 1)
+(column-number-mode 1)
+(global-hl-line-mode 1)
+(electric-pair-mode 1)
+
+;; Gerenciador de pacotes
+(require 'package)
+(setq package-archives '(("gnu"   . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
+(setq use-package-always-ensure t)
+
+;; Tema moderno
+(use-package doom-themes
+  :config (load-theme 'doom-one t))
+
+;; Explorer de diretórios
+(use-package neotree
+  :bind ([f8] . neotree-toggle)
+  :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+
+(use-package all-the-icons :if (display-graphic-p))
+
+;; Autocompletar
+(use-package company
+  :init (global-company-mode 1))
+
+;; LSP (Language Server Protocol)
+(use-package lsp-mode
+  :hook ((prog-mode . lsp))
+  :commands lsp)
+
+(use-package lsp-ui :commands lsp-ui-mode)
+
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+;; Git
+(use-package magit
+  :bind ("C-x g" . magit-status))
+
+;; Terminal
+(use-package vterm
+  :commands vterm)
+
+;; Múltiplos cursores
+(use-package multiple-cursors
+  :bind (("C-S-c C-S-c" . mc/edit-lines)
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-c C-<" . mc/mark-all-like-this)))
+
+;; Navegação e busca
+(use-package ivy :init (ivy-mode 1))
+(use-package counsel :after ivy)
+(use-package swiper :after ivy)
+
+;; Syntax highlight
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package which-key
+  :init (which-key-mode))
+-----------------------------------
+
+Salve e feche.
+
+-----------------------------------
+# 4. Instalar LSP servers para linguagens
+O LSP fornece autocomplete, linting e refatoração.
+
+C / C++:
+    clangd já vem instalado em distros (pacote clangd)
+
+Python:
+    pip install "python-lsp-server[all]"
+
+Rust:
+    rustup install stable
+    rustup component add rust-analyzer
+    (lsp-mode detecta o `rust-analyzer` automaticamente)
+
+JavaScript / TypeScript:
+    sudo npm install -g typescript-language-server typescript
+
+-----------------------------------
+# 5. Como usar
+
+EXPLORER DE ARQUIVOS:
+    F8        -> abre sidebar de diretórios (neotree)
+
+GIT:
+    C-x g     -> abre interface Magit (commit, push, branch)
+
+TERMINAL:
+    M-x vterm -> abre terminal integrado
+
+NAVEGAÇÃO:
+    C-S-l     -> ir para linha
+    C-s       -> buscar no arquivo
+    M-x       -> executar comando
+    C-x C-f   -> abrir arquivo
+
+MÚLTIPLOS CURSORES:
+    C->       -> marcar próxima ocorrência
+    C-<       -> marcar anterior
+    C-c C-<   -> marcar todas as ocorrências
+
+COMPILAÇÃO / EXECUÇÃO:
+    M-x compile -> rodar make, gcc, cargo, npm etc.
+    M-x recompile -> recompilar último comando
+
+-----------------------------------
+# 6. Temas e personalização
+- Instalar tema:
+    M-x package-install RET dracula-theme RET
+- Trocar tema:
+    M-x load-theme RET doom-one RET
+
+-----------------------------------
+# 7. Workflow de programação
+
+Exemplo em C:
+    emacs main.c
+    F8 -> abrir sidebar
+    Escrever código
+    M-x compile -> gcc main.c -o main
+    M-x shell-command -> ./main
+
+Exemplo em Python:
+    emacs app.py
+    Digitar código
+    Auto-complete já ativo
+    M-x compile -> python3 app.py
+
+Exemplo em Rust:
+    emacs src/main.rs
+    Cargo detectado automaticamente
+    M-x compile -> cargo run
+
+Exemplo em JS:
+    emacs index.js
+    Autocomplete LSP ativo
+    M-x compile -> node index.js
+
+-----------------------------------
+# 8. Atalhos úteis
+
+GERAL:
+    C-x C-f   -> abrir arquivo
+    C-x C-s   -> salvar arquivo
+    C-x b     -> trocar buffer
+    C-x k     -> fechar arquivo
+
+CODIFICAÇÃO:
+    C-/       -> desfazer
+    C-S-/     -> refazer
+    C-d       -> apagar linha inteira
+    M-/       -> autocompletar palavra
+    TAB       -> indentação
+
+MULTI-CURSOS:
+    C->       -> próximo
+    C-<       -> anterior
+    C-c C-<   -> todos
+
+GIT:
+    C-x g     -> abrir Magit
+
+TERMINAL:
+    M-x vterm -> abrir terminal dentro do Emacs
+
+-----------------------------------
+# 9. Próximos passos
+- Usar org-mode para documentar código/projetos.
+- Instalar dap-mode para debug integrado (gdb, node, python).
+- Criar keybindings customizados no `init.el`.
+
+===================================
+Fim do Tutorial
+===================================
