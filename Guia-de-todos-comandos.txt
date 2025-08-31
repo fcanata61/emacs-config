@@ -200,3 +200,174 @@ OUTROS:
  C-g      Cancelar ação
 
 ===========================================================
+===========================================================
+          MAPA VISUAL DO EMACS (DIAGRAMAS ASCII)
+===========================================================
+
+Este documento mostra a estrutura e os principais recursos
+do Emacs em gráficos ASCII. Use junto com o guia principal.
+
+-----------------------------------------------------------
+1. JANELAS E SPLITS
+-----------------------------------------------------------
+
+Uma janela simples:
++-------------------------------------+
+|              buffer.txt             |
+|                                     |
++-------------------------------------+
+
+Split horizontal (C-x 2):
++-------------------------------------+
+|            buffer1.txt              |
+|                                     |
++-------------------------------------+
+|            buffer2.txt              |
+|                                     |
++-------------------------------------+
+
+Split vertical (C-x 3):
++-------------------+-----------------+
+|   buffer1.txt     |   buffer2.txt   |
+|                   |                 |
+|                   |                 |
++-------------------+-----------------+
+
+-----------------------------------------------------------
+2. BUFFERS
+-----------------------------------------------------------
+
+Emacs pode ter vários buffers abertos ao mesmo tempo.
+
+Exemplo de lista de buffers (C-x C-b):
++----------------------------------------------------------+
+| Buffers Menu                                             |
+|                                                          |
+|  *scratch*       (lisp interaction mode)                 |
+|  buffer1.txt     (text mode)                             |
+|  buffer2.py      (python mode)                           |
+|  *Messages*      (messages)                              |
++----------------------------------------------------------+
+
+Trocar entre buffers: C-x b
+
+-----------------------------------------------------------
+3. GERENCIAMENTO DE ARQUIVOS
+-----------------------------------------------------------
+
+Dired (C-x d):
++----------------------------------------------------------+
+| Dired: ~/projeto                                         |
+|                                                          |
+|  drwxr-xr-x   2 user  users    pasta/                    |
+|  -rw-r--r--   1 user  users    arquivo1.txt              |
+|  -rw-r--r--   1 user  users    codigo.py                 |
+|  -rw-r--r--   1 user  users    Makefile                  |
++----------------------------------------------------------+
+
+Neotree (F8):
++----------------+-----------------------------+
+| projeto/       | buffer aberto               |
+|   pasta/       |                             |
+|   arquivo1.txt |                             |
+|   codigo.py    |                             |
+|   Makefile     |                             |
++----------------+-----------------------------+
+
+-----------------------------------------------------------
+4. NAVEGAÇÃO NO TEXTO
+-----------------------------------------------------------
+
+Mover no texto (exemplo de cursor `^`):
+
+"Olá Mundo"
+   ^ Cursor no início (C-a)
+
+"Olá Mundo"
+            ^ Cursor no fim (C-e)
+
+Mover palavras:
+ M-f → "Olá ^Mundo"
+ M-b → "^Olá Mundo"
+
+-----------------------------------------------------------
+5. EDIÇÃO
+-----------------------------------------------------------
+
+Seleção com marca (C-SPC):
++------------------------------------+
+| Olá [Mundo] cruel                  |
++------------------------------------+
+Copiar (M-w) / Cortar (C-w) / Colar (C-y)
+
+Apagar até o fim da linha (C-k):
+Antes: "Olá Mundo cruel"
+Depois: "Olá"
+
+-----------------------------------------------------------
+6. BUSCA E SUBSTITUIÇÃO
+-----------------------------------------------------------
+
+Busca incremental (C-s):
+Digite: "Mundo"
++------------------------------------+
+| Olá [Mundo] cruel                  |
++------------------------------------+
+
+Substituição (M-%):
++------------------------------------+
+| Replace "Mundo" with: "Planeta"?   |
+| (y = yes, n = no, ! = all)         |
++------------------------------------+
+
+-----------------------------------------------------------
+7. TERMINAL INTEGRADO
+-----------------------------------------------------------
+
+Comando: M-x term
++------------------------------------+
+| bash$ ls                           |
+| buffer1.txt buffer2.py Makefile    |
+| bash$                              |
++------------------------------------+
+
+-----------------------------------------------------------
+8. GIT COM MAGIT
+-----------------------------------------------------------
+
+M-x magit-status:
++----------------------------------------------------------+
+|  Magit Status: ~/projeto                                 |
+|                                                          |
+|  Unstaged changes (2):                                   |
+|   modified:   buffer1.txt                                |
+|   modified:   codigo.py                                  |
+|                                                          |
+|  Commands:                                               |
+|   s = stage, c = commit, p = push, q = quit              |
++----------------------------------------------------------+
+
+-----------------------------------------------------------
+9. ATALHOS RESUMIDOS (GRÁFICO)
+-----------------------------------------------------------
+
++-----------------+-----------------------------+
+| AÇÃO            | COMANDO                     |
++-----------------+-----------------------------+
+| Abrir arquivo   | C-x C-f                     |
+| Salvar arquivo  | C-x C-s                     |
+| Split horiz.    | C-x 2                       |
+| Split vert.     | C-x 3                       |
+| Mudar janela    | C-x o                       |
+| Fechar janela   | C-x 0                       |
+| Copiar          | M-w                         |
+| Cortar          | C-w                         |
+| Colar           | C-y                         |
+| Buscar          | C-s                         |
+| Substituir      | M-%                         |
+| Magit Git       | M-x magit-status            |
+| Dired           | C-x d                       |
+| Neotree         | F8                          |
++-----------------+-----------------------------+
+
+===========================================================
