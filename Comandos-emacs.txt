@@ -1,0 +1,202 @@
+===========================================================
+                GUIA COMPLETO DO EMACS
+===========================================================
+
+Este é um manual prático para aprender, configurar e usar
+o Emacs como um editor poderoso (IDE + terminal + Git).
+Inclui comandos, exemplos, gráficos ASCII e atalhos.
+
+-----------------------------------------------------------
+1. INTRODUÇÃO
+-----------------------------------------------------------
+
+- O Emacs é um editor de texto extensível.
+- Ele pode ser IDE, gerenciador de arquivos, terminal,
+  cliente Git, agenda, etc.
+- Você controla quase tudo com combinações de teclas.
+
+NOTAÇÃO DE TECLAS:
+ C = Control
+ M = Meta (Alt ou Esc)
+ S = Shift
+
+Exemplo:
+ C-x C-f  = Pressione Control+x e depois Control+f
+
+-----------------------------------------------------------
+2. ARQUIVOS E BUFFERS
+-----------------------------------------------------------
+
+Abrir arquivo .......... C-x C-f
+Salvar arquivo ......... C-x C-s
+Salvar como ............ C-x C-w
+Fechar buffer .......... C-x k
+Lista de buffers ....... C-x C-b
+Trocar buffer .......... C-x b
+
+Exemplo: 
+ - Pressione C-x C-f, digite: ~/meu.txt e ENTER
+
+-----------------------------------------------------------
+3. JANELAS E LAYOUT
+-----------------------------------------------------------
+
+Dividir horizontalmente  C-x 2
+Dividir verticalmente .. C-x 3
+Fechar janela atual .... C-x 0
+Fechar outras janelas .. C-x 1
+Trocar janela .......... C-x o
+
+ASCII:
++-----------------------+----------------------+
+|  buffer1.txt          |   buffer2.txt        |
+|                       |                      |
+|                       |                      |
++-----------------------+----------------------+
+
+-----------------------------------------------------------
+4. NAVEGAÇÃO DE TEXTO
+-----------------------------------------------------------
+
+Mover início da linha .. C-a
+Mover fim da linha ..... C-e
+Mover palavra adiante .. M-f
+Mover palavra atrás .... M-b
+Mover início buffer .... M-<
+Mover fim buffer ....... M->
+Avançar página ......... C-v
+Voltar página .......... M-v
+Ir para linha .......... M-g g
+
+-----------------------------------------------------------
+5. EDIÇÃO
+-----------------------------------------------------------
+
+Copiar ................. M-w
+Cortar ................. C-w
+Colar (yank) ........... C-y
+Desfazer ............... C-/
+Refazer (se ativo) ..... C-g depois C-/
+Selecionar texto ....... C-SPC (marca) + mover cursor
+Apagar palavra ......... M-d
+Apagar até o fim linha . C-k
+
+-----------------------------------------------------------
+6. BUSCA E SUBSTITUIÇÃO
+-----------------------------------------------------------
+
+Buscar incremental ..... C-s
+Buscar anterior ........ C-r
+Substituir texto ....... M-% 
+ (y = sim, n = não, ! = todos)
+
+-----------------------------------------------------------
+7. GERENCIAR DIRETÓRIOS
+-----------------------------------------------------------
+
+Abrir gerenciador (dired) ... C-x d
+Navegar arquivos ............ setas + ENTER
+Deletar arquivo ............. d (marca) + x
+Copiar arquivo .............. C (copy)
+Mover arquivo ............... R (rename)
+
+Usando Neotree (plugin):
+ F8  = abre painel lateral estilo VSCode
+
+-----------------------------------------------------------
+8. PROJETOS E GIT
+-----------------------------------------------------------
+
+Magit (interface Git):
+ M-x magit-status
+ s  = stage
+ c  = commit
+ p  = push
+ f  = pull
+ q  = sair
+
+Projectile (se instalado):
+ M-x projectile-find-file  → procurar arquivos no projeto
+ M-x projectile-ripgrep    → procurar texto no projeto
+
+-----------------------------------------------------------
+9. TERMINAL
+-----------------------------------------------------------
+
+M-x term       → abre terminal básico
+M-x vterm      → terminal avançado (se instalado)
+C-x C-o        → alterna entre modos de input
+
+-----------------------------------------------------------
+10. TEMAS E PLUGINS
+-----------------------------------------------------------
+
+Adicionar repositórios:
+ M-x package-list-packages
+ i = marcar instalação
+ x = executar
+
+Exemplo (doom-themes):
+ M-x package-install RET doom-themes RET
+ (load-theme 'doom-one t)
+
+-----------------------------------------------------------
+11. EXEMPLOS PRÁTICOS
+-----------------------------------------------------------
+
+-> Abrir dois arquivos lado a lado
+ C-x 3
+ C-x C-f arquivo1.txt
+ C-x o
+ C-x C-f arquivo2.txt
+
+-> Procurar palavra "main" no arquivo atual
+ C-s main
+
+-> Usar Git
+ M-x magit-status
+ (adicionar, commitar, pushar)
+
+-----------------------------------------------------------
+12. TABELA RÁPIDA DE ATALHOS
+-----------------------------------------------------------
+
+ARQUIVOS:
+ C-x C-f  Abrir arquivo
+ C-x C-s  Salvar
+ C-x C-w  Salvar como
+ C-x k    Fechar buffer
+
+JANELAS:
+ C-x 2    Split horizontal
+ C-x 3    Split vertical
+ C-x o    Mudar janela
+ C-x 0    Fechar janela
+ C-x 1    Uma janela só
+
+NAVEGAÇÃO:
+ C-a      Início da linha
+ C-e      Fim da linha
+ M-f      Avança palavra
+ M-b      Retrocede palavra
+ M-<      Início do arquivo
+ M->      Fim do arquivo
+
+EDIÇÃO:
+ C-w      Cortar
+ M-w      Copiar
+ C-y      Colar
+ C-/      Desfazer
+ C-k      Apagar até fim linha
+ M-d      Apagar palavra
+
+BUSCA:
+ C-s      Buscar
+ C-r      Buscar reverso
+ M-%      Substituir
+
+OUTROS:
+ M-x      Executar comando
+ C-g      Cancelar ação
+
+===========================================================
